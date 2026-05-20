@@ -13,7 +13,7 @@ from datetime import datetime, time
 # ==========================================
 st.set_page_config(
     page_title="UrbanFlow: NYC Mobility Predictor",
-    page_icon="tao",
+    page_icon="U",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -82,13 +82,13 @@ def load_resources():
 lgbm, xgboost, catboost, zone_df = load_resources()
 
 if lgbm is None:
-    st.error("❌ Critical Error: Could not load models. Check 'models/' folder.")
+    st.error("Critical Error: Could not load models. Check 'models/' folder.")
     st.stop()
 
 # ==========================================
 # 3. SIDEBAR: USER INPUTS
 # ==========================================
-st.sidebar.header("📍 Trip Configuration")
+st.sidebar.header("Trip Configuration")
 
 # Zone Selection
 zone_list = zone_df['Zone'].unique()
@@ -101,9 +101,9 @@ travel_date = st.sidebar.date_input("Date", datetime.today())
 travel_time = st.sidebar.time_input("Time", time(12, 00)) 
 
 st.sidebar.markdown("---")
-st.sidebar.header("🌤️ Conditions")
+st.sidebar.header("Conditions")
 temperature = st.sidebar.slider("Temperature (°F)", 10, 100, 65)
-is_rainy = st.sidebar.checkbox("Is it Raining? 🌧️")
+is_rainy = st.sidebar.checkbox("Is it Raining?")
 trip_dist = st.sidebar.number_input("Estimated Distance (miles)", 0.1, 50.0, 2.5)
 
 # ==========================================
@@ -141,16 +141,16 @@ def preprocess_input():
 # ==========================================
 # 5. MAIN DASHBOARD UI
 # ==========================================
-st.title("🚖 UrbanFlow Analytics")
+st.title("UrbanFlow Analytics")
 st.markdown("### Intelligent Trip Duration Forecasting")
 
 # Show Image if it exists
 if os.path.exists("outputs/big_three_showdown.png"):
     st.image("outputs/big_three_showdown.png", use_container_width=True, caption="Model Benchmark")
 else:
-    st.warning("⚠️ Benchmark image not found in 'outputs/' folder.")
+    st.warning("Benchmark image not found in 'outputs/' folder.")
 
-if st.button("🚀 Predict Trip Duration"):
+if st.button("Predict Trip Duration"):
     with st.spinner("Processing geospatial & weather data..."):
         input_df = preprocess_input()
         
@@ -183,4 +183,4 @@ if st.button("🚀 Predict Trip Duration"):
             # Red color for Ensemble
             st.markdown(metric_card("ENSEMBLE", avg_pred, "#ff4b4b"), unsafe_allow_html=True)
 
-        st.success(f"✅ **Prediction:** Based on current conditions ({temperature}°F, Rush Hour: {'Yes' if input_df['is_rush_hour'][0] else 'No'}), the trip will take approximately **{int(avg_pred)} minutes**.")
+        st.success(f"**Prediction:** Based on current conditions ({temperature}°F, Rush Hour: {'Yes' if input_df['is_rush_hour'][0] else 'No'}), the trip will take approximately **{int(avg_pred)} minutes**.")

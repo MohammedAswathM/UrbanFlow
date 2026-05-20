@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root { height: 100%; }
+body {
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  background: radial-gradient(1200px 800px at 80% -10%, rgba(34,211,238,0.08), transparent 60%),
+              radial-gradient(900px 600px at -10% 110%, rgba(255,75,75,0.10), transparent 60%),
+              #0b1020;
+  color: #e5e7eb;
+}
+
+.glass {
+  background: rgba(22, 29, 54, 0.6);
+  border: 1px solid rgba(255,255,255,0.06);
+  backdrop-filter: blur(10px);
+}
+
+.gradient-border {
+  position: relative;
+}
+.gradient-border::before {
+  content: "";
+  position: absolute; inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(34,211,238,0.6), rgba(255,75,75,0.5));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Leaflet overrides for dark theme */
+.leaflet-container { background: #0b1020; }
+.leaflet-tile { filter: brightness(0.7) contrast(1.05) saturate(0.85) hue-rotate(180deg) invert(0.92); }
+.leaflet-control-attribution { background: rgba(10,15,30,0.7) !important; color: #94a3b8 !important; }
+.leaflet-control-attribution a { color: #67e8f9 !important; }
+
+.pulse-dot {
+  width: 12px; height: 12px; border-radius: 9999px;
+  background: #22d3ee;
+  box-shadow: 0 0 0 0 rgba(34,211,238,0.7);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(34,211,238,0.7); }
+  70% { box-shadow: 0 0 0 14px rgba(34,211,238,0); }
+  100% { box-shadow: 0 0 0 0 rgba(34,211,238,0); }
+}
+
+/* Animated route line */
+@keyframes dashflow { to { stroke-dashoffset: -200; } }
+.route-line {
+  stroke-dasharray: 8 10;
+  animation: dashflow 6s linear infinite;
+}
+
+/* Scrollbar */
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-thumb { background: #1d2643; border-radius: 8px; }
+*::-webkit-scrollbar-thumb:hover { background: #2a3457; }

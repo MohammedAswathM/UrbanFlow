@@ -1,8 +1,27 @@
-# Ignore Python Cache
+# Python
 __pycache__/
 *.pyc
-
-# Ignore Virtual Environments
-.venv
-env/
+*.pyo
+*.egg-info/
+.venv/
 venv/
+env/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Node
+node_modules/
+dist/
+.vite/
+*.log
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Project scratch
+backend/__pycache__/
+outputs/_*.geojson
+outputs/_*.zip
