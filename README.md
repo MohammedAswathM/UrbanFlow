@@ -26,7 +26,11 @@ To ensure maximum prediction stability, we implemented a stacked ensemble of the
 | **CatBoost** | **4.62** | **0.815** | Captures complex spatial (borough) dependencies. |
 | **Ensemble** | **4.55** | **0.820** | **The Final Predictor** |
 
-![Model Comparison](outputs/big_three_showdown.png)
+### Model Comparison Chart
+
+<p align="center">
+    <img src="outputs/big_three_showdown.png" alt="Model comparison chart for LightGBM, XGBoost, CatBoost, and Ensemble performance" width="900" />
+</p>
 
 ---
 
