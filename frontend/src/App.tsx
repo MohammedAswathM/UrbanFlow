@@ -8,11 +8,17 @@ import ScenarioControls from "./components/ScenarioControls";
 import { getGeoJson, getHeatmap, getZones, predict, type HeatCell, type PredictResponse, type Zone } from "./api";
 
 function startOfWeekISO(targetWeekday: number, hour: number): string {
+  // Build a naive local-timestamp string the backend can read directly,
+  // bypassing the UTC conversion that toISOString() would do. The backend
+  // only uses the hour/day/month components, so the timezone offset is
+  // irrelevant - what matters is that the hour the user picked is the
+  // hour the model sees.
   const d = new Date();
   const cur = d.getDay() === 0 ? 6 : d.getDay() - 1; // 0=Mon..6=Sun
   d.setDate(d.getDate() + (targetWeekday - cur));
   d.setHours(hour, 0, 0, 0);
-  return d.toISOString();
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:00:00`;
 }
 
 export default function App() {
