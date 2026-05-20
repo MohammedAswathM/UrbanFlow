@@ -27,9 +27,6 @@
 10. [Repository Structure](#10-repository-structure)
 11. [Installation & Execution](#11-installation--execution)
 12. [How the Web Application Works](#12-how-the-web-application-works)
-13. [Future Improvements](#13-future-improvements)
-14. [References](#14-references)
-15. [Team](#15-team)
 
 ---
 
@@ -357,37 +354,6 @@ python -m streamlit run app.py
 2. **Mobility Intelligence Map** — the selected zones light up; an ML-styled arc is drawn between them.
 3. **Predict** — the React UI POSTs the feature vector to `/api/predict`; the FastAPI service runs all three boosters and the ensemble.
 4. **Model Comparison Panel** — each booster's prediction is rendered as an animated bar; the spread is displayed as a confidence indicator.
-5. **Feature Importance Strip** — live gain-score ranking from the served XGBoost model.
-6. **Heatmap Toggle** — the map shades all 263 zones by hour-conditioned demand pressure derived from historical aggregates baked into `/api/heatmap`.
-
----
-
-## 13. Future Improvements
-
-- **SHAP-based per-prediction explainability** rendered directly on the map.
-- **Real-time NOAA feed** in place of slider-set weather.
-- **Conformal prediction intervals** so the UI shows calibrated confidence bounds rather than raw model spread.
-- **Graph-temporal model (GCN-LSTM)** as a research baseline at higher latency budgets.
-- **Driver-side mobile view** for live ETA broadcasting.
-
----
-
-## 14. References
-
-Key citations from the paper (full list in `UrbanFlow_Final.docx`):
-
-1. Chen, T., & Guestrin, C. (2016). *XGBoost: A Scalable Tree Boosting System.* KDD.
-2. Ke, G. et al. (2017). *LightGBM: A Highly Efficient Gradient Boosting Decision Tree.* NeurIPS.
-3. Prokhorenkova, L. et al. (2018). *CatBoost: Unbiased Boosting with Categorical Features.* NeurIPS.
-4. Yao, H. et al. (2018). *Deep Multi-View Spatial–Temporal Network for Taxi Demand Prediction.* AAAI.
-5. NYC Taxi & Limousine Commission (2021). *TLC Trip Record Data.*
-6. NOAA NCEI (2021). *Climate Data Online.*
-
----
-
-## 15. Team
-
-- **Mohammed Aswath M** — Project lead, ML engineering, full-stack integration.
-- Team members — contributions across data engineering, feature design, evaluation, and documentation.
-
-> Submitted for the Machine Learning Project Demonstration evaluation. Evaluated repository: this one.
+5. **SHAP Explanation Panel** — every prediction returns the per-feature SHAP attribution from the XGBoost model (Tree SHAP, exact, microsecond-latency). The panel shows the eight strongest contributors with signed bars: cyan = the feature *shortens* the trip, red = the feature *lengthens* it. The contributions sum to the gap between the model's base value and the ensemble ETA, so the explanation is mathematically additive, not heuristic.
+6. **Conformal Prediction Interval** — the API returns calibrated 50 / 80 / 90 / 95 % intervals derived from the held-out residual quantiles of the XGBoost test split (RMSE = 4.05 min, MAE = 2.46 min). The UI shows the 50 % core, the 90 % halo, and the 95 % envelope as a layered confidence bar instead of a raw model-disagreement number.
+7. **Heatmap Toggle** — the map shades all 263 zones by hour-conditioned demand pressure derived from historical aggregates baked into `/api/heatmap`.

@@ -18,6 +18,19 @@ export type HeatCell = {
 
 export type ModelPrediction = { model: string; duration_minutes: number };
 
+export type ShapContribution = {
+  feature: string;
+  value: string;
+  contribution_minutes: number;
+};
+
+export type ConformalInterval = {
+  level: number;
+  lower_minutes: number;
+  upper_minutes: number;
+  half_width_minutes: number;
+};
+
 export type PredictResponse = {
   ensemble_minutes: number;
   spread_minutes: number;
@@ -30,6 +43,9 @@ export type PredictResponse = {
     pickup_borough: string;
     dropoff_borough: string;
   };
+  shap: ShapContribution[];
+  shap_base_minutes: number;
+  intervals: ConformalInterval[];
 };
 
 export type PredictRequest = {

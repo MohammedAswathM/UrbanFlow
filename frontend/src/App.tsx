@@ -3,6 +3,7 @@ import MobilityMap from "./components/MobilityMap";
 import PredictionPanel from "./components/PredictionPanel";
 import ModelComparison from "./components/ModelComparison";
 import FeatureImportance from "./components/FeatureImportance";
+import ShapExplanation from "./components/ShapExplanation";
 import ScenarioControls from "./components/ScenarioControls";
 import { getGeoJson, getHeatmap, getZones, predict, type HeatCell, type PredictResponse, type Zone } from "./api";
 
@@ -125,7 +126,7 @@ export default function App() {
             onPredict={onPredict}
             loading={loading}
           />
-          <FeatureImportance />
+          {prediction ? <ShapExplanation prediction={prediction} /> : <FeatureImportance />}
         </aside>
 
         {/* Center: map */}
